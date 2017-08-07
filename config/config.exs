@@ -2,6 +2,13 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
+config :banquet,
+  ecto_repos: [Banquet.Repos.Accounts]
+
+config :banquet, Banquet.Repos.Accounts,
+  adapter: EctoMnesia.Adapter,
+  storage_type: :disc_copies
+
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
 # file won't be loaded nor affect the parent project. For this reason,
@@ -28,3 +35,7 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+
+config :ecto_mnesia,
+  host: {:system, :atom, "MNESIA_HOST", Kernel.node()},
+  storage_type: {:system, :atom, "MNESIA_STORAGE_TYPE", :disc_copies}

@@ -4,12 +4,15 @@ defmodule Banquet.Application do
   @moduledoc false
 
   use Application
+  require Logger
 
+  @behaviour Application
+
+  @impl Application
   def start(_type, _args) do
-    # List all child processes to be supervised
+
     children = [
-      # Starts a worker by calling: Banquet.Worker.start_link(arg)
-      # {Banquet.Worker, arg},
+      Supervisor.Spec.supervisor(Banquet.Repos.Accounts, []),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -17,4 +20,5 @@ defmodule Banquet.Application do
     opts = [strategy: :one_for_one, name: Banquet.Supervisor]
     Supervisor.start_link(children, opts)
   end
+
 end
